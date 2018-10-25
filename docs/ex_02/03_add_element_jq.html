@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>API Workshop</title>
+  <meta charset="UTF-8">
+</head>
+<body>
+  <h1>API Workshop</h1>
+
+  <p><button onClick="f01()">押してください</button></p>
+
+  <table border="1">
+    <thead>
+      <tr>
+        <th>書影</th>
+        <th>タイトル</th>
+        <th>出版社</th>
+        <th>URL</th>
+      </tr>
+    </thead>
+    <tbody id="tbody">
+      <tr>
+        <td>書影1</td>
+        <td>タイトル1</td>
+        <td>出版社1</td>
+        <td>URL1</td>
+      </tr>
+    </tbody>
+  </table>
+
+</body>
+<script
+src="https://code.jquery.com/jquery-3.3.1.min.js"
+integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+crossorigin="anonymous"></script>
+<script>
+function f01(){
+
+  var tbody = $("#tbody");//var tbody = document.getElementById("tbody");
+
+  var tr = $("<tr>");//var tr = document.createElement('tr');
+  tbody.append(tr);//tbody.appendChild(tr);
+
+  var td = $("<td>");//var td = document.createElement('td');
+  tr.append(td);//tr.appendChild(td);
+  td.append("書影2");//td.innerHTML = "書影2";
+
+  td = $("<td>");
+  tr.append(td);
+  td.append("タイトル2");
+
+  td = $("<td>");
+  tr.append(td);
+  td.append("出版社2");
+
+  td = $("<td>");
+  tr.append(td);
+  td.append("URL2");
+}
+</script>
+</html>

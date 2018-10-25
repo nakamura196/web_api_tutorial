@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>API Workshop</title>
+  <meta charset="UTF-8">
+</head>
+<body>
+  <h1>API Workshop</h1>
+
+  <p><button onClick="f01()">押してください</button></p>
+
+  <table border="1">
+    <thead>
+      <tr>
+        <th>書影</th>
+        <th>タイトル</th>
+        <th>出版社</th>
+        <th>URL</th>
+      </tr>
+    </thead>
+    <tbody id="tbody">
+      <tr>
+        <td>書影1</td>
+        <td>タイトル1</td>
+        <td>出版社1</td>
+        <td>URL1</td>
+      </tr>
+    </tbody>
+  </table>
+
+</body>
+<script>
+  function f01(){
+    let tbody = document.getElementById("tbody");
+    let tr = document.createElement('tr');
+    tbody.appendChild(tr);
+
+    var td = document.createElement('td');
+    tr.appendChild(td);
+    td.innerHTML = "書影2";
+
+    td = document.createElement('td');
+    tr.appendChild(td);
+    td.innerHTML = "タイトル2";
+
+    td = document.createElement('td');
+    tr.appendChild(td);
+    td.innerHTML = "出版社2";
+
+    td = document.createElement('td');
+    tr.appendChild(td);
+    td.innerHTML = "URL2";
+  }
+</script>
+</html>
