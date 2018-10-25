@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+
+  <title>書誌・書影系APIを使ったリスト</title>
+
+  <style>
+  h1 {color:green;} /*見出しのデザイン*/
+  .comment {;} /*解説のデザイン*/
+  .book_title{color:red;}/*本のタイトル*/
+  </style>
+  
+</head>
+
+<body>
+
+  <div class="container my-5">
+
+    <h1 class="my-5">中村覚が選んだコレクション<!-- テーマの見出しを入力 --></h1>
+
+    <div class="comment"><!-- ここに解説を入力 -->特別リストです。</div>
+
+    <form class="my-5" id="form">
+      <div class="form-group">
+        <label>ISBN Input: ex. 9784408451749,9784794967213,9784818823556</label>
+        <textarea class="form-control" name="isbn"></textarea>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-md">書誌データ取得</button>
+    </form>
+
+    <table class="table table-bordered my-5">
+      <tr>
+        <th>書影</th>
+        <th>タイトル</th>
+        <th>出版社</th>
+        <th>URL</th>
+        <th>取得方法</th>
+      </tr>
+      <tbody id="tbody">
+      </tbody>
+    </table>
+
+  </div>
+
+
+  <script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+
+  <script>
+
+  //var isbn_list = get_isbn_list()
+  var isbn_list = ["9784408451749","9784794967213","9784818823556"]
+
+  if(isbn_list.length > 0){
+    $("#form").hide();
+    search(isbn_list)
+  }
+
+  function search(isbn_list){
+
+    //おまじない
+    $.ajaxSetup({ async: false });
+
+    for(i = 0; i < isbn_list.length; i++){
+
+      var isbn = isbn_list[i].trim();//文字列前後の空白の削除
+
+      var url = "https://api.openbd.jp/v1/get?isbn="+isbn;
+
+      $.getJSON(url, function(data) {
+
+        data = data[0]
+
+        if(data != null){
+          var item = data["summary"];
+          var title = item["title"];
+          var publisher = item["publisher"];
+          var url = "http://api.calil.jp/openurl?rft.isbn="+isbn;
+          var thumb = null;
+          if(item["cover"]){
+            thumb = item["cover"];
+          }
+          add_row(thumb, title, publisher, url, "openBD");
+        } else {
+          search_google(isbn)
+        }
+      })
+    }
+  }
+
+
+  //getパラメータからisbnのリストを取得するメソッド
+  function get_isbn_list(){
+    var arg = new Object;
+    url = location.search.substring(1).split('&');
+
+    for (i = 0; url[i]; i++) {
+      var k = url[i].split('=');
+      arg[k[0]] = decodeURIComponent(k[1]);
+    }
+
+    if(arg["isbn"] && arg["isbn"] != ""){
+      var isbn_list = arg["isbn"].split(",")
+      return isbn_list
+    } else {
+      return []
+    }
+  }
+
+  function add_row(thumb, title, publisher, url, site){
+    var tbody = $("#tbody");
+
+    var tr = $("<tr>");
+    tbody.append(tr);
+
+    var td = $("<td>");
+    tr.append(td);
+
+    if(thumb){
+      let img = $("<img>");
+      img.attr("src", thumb);
+      td.append(img);
+    }
+
+    td = $("<td>");
+    tr.append(td);
+    td.append(title);
+    td.attr("class", "book_title");
+
+    td = $("<td>");
+    tr.append(td);
+    td.append(publisher);
+
+    td = $("<td>");
+    tr.append(td);
+
+    if(url){
+      let a = $("<a>");
+      td.append(a);
+      a.attr("href", url);
+      a.append(url);
+    }
+
+    td = $("<td>");
+    tr.append(td);
+    td.append(site)
+  }
+
+  //google apiを使って書誌及び書影を取得するメソッド
+  function search_google(isbn){
+
+    var url = "https://www.googleapis.com/books/v1/volumes?q=isbn:"+isbn;
+
+    $.getJSON(url, function(data) {
+
+      var obj = data["items"][0]
+
+      if(obj != null){
+        var item = obj["volumeInfo"];
+        var title = item["title"];
+        var publisher = item["publisher"];
+        var url = "http://api.calil.jp/openurl?rft.isbn="+isbn;
+        var thumb = null;
+        if(item["imageLinks"]){
+          thumb = item["imageLinks"]["smallThumbnail"];
+        }
+        add_row(thumb, title, publisher, url, "Google");
+
+      }
+    })
+  }
+
+  </script>
+
+</body>
+</html>
