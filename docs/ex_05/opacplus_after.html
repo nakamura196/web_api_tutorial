@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>OPAC+</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+</head>
+<body>
+
+  <div class="container-fluid my-5">
+
+    <h1 class="my-5">OPAC+</h1>
+
+    <div class="row">
+      <div class="col-md-2 mb-5">
+        <div class="card">
+          <div class="card-body">
+            <form>
+              <div class="form-group">
+                <label>キーワード</label>
+                <input type="text" class="form-control" name="q">
+              </div>
+
+              <button type="submit" class="btn btn-primary">検索</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-10">
+        <ul class="nav nav-tabs nav-fill mb-4" id="ul">
+        </ul>
+
+        <iframe width="100%" height="600px" id="iframe"></iframe>
+
+      </div>
+    </div>
+  </div>
+  <script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+
+  <script>
+
+  var sites = [
+    {
+      "name": "カーリル",
+      "target": "get",
+      "url": "https://calil.jp/search?q=OPACWORD&sysid=Chiba_Noda"
+    },
+    {
+      "name": "東京都立",
+      "target": "tab",
+      "url": "https://catalog.library.metro.tokyo.jp/winj/opac/search-standard.do?lang=ja&txt_word=OPACWORD&submit_btn_searchEasy=%E6%A4%9C%E7%B4%A2&hid_word_column=fulltext&txt_dummy="
+    },
+    {
+      "name": "カーリルローカル",
+      "target": "get",
+      "url": "https://calil.jp/local/search?csid=tokyo&q=OPACWORD"
+    },
+    {
+      "name": "Amazon",
+      "target": "tab",
+      "url": "https://www.amazon.co.jp/s/ref=nb_sb_noss?__mk_ja_JP=%E3%82%AB%E3%82%BF%E3%82%AB%E3%83%8A&url=search-alias%3Daps&field-keywords=OPACWORD"
+    },
+    {
+      "name": "NAXOS",
+      "target": "get",
+      "url": "http://ml.naxos.jp/KeywordSearch2.aspx?word=OPACWORD"
+    },
+    {
+      "name": "NDL-DL",
+      "target": "get",
+      "url": "http://dl.ndl.go.jp/search/searchResult?featureCode=all&searchWord=OPACWORD&viewRestricted=0&viewRestricted=2"
+    },
+    {
+      "name": "CINII",
+      "target": "get",
+      "url": "http://ci.nii.ac.jp/search?q=OPACWORD&range=0&count=20&sortorder=1&type=0"
+    },
+    {
+      "name": "リサーチナビ",
+      "target": "get",
+      "url": "http://rnavi.ndl.go.jp/ln-search/?keyword=OPACWORD#OPACWORD"
+    }
+  ];
+
+  //パラメータの取得
+  var params = get_params();
+  var site_name = params["site_name"] ? params["site_name"] : "カーリル";
+  var q = params["q"]　? params["q"] : "";
+  //検索語を入力フォームへセット
+  $("input[name='q']").val(q);
+
+  //各サイト毎にタブの設定
+  for(var i = 0; i < sites.length; i++){
+    var site = sites[i];
+
+    var li = $('<li class="nav-item">');
+    $("#ul").append(li);
+
+    var a = $('<a class="nav-link">');
+    li.append(a);
+    a.append(site.name);
+
+    //サイトのURLが与えられているかを検証する
+    if(site.url != ""){
+      //TARGET毎に処理を変更する
+      if(site.target == "get"){
+        a.attr("href", "?q="+q+"&site_name="+site.name);
+      } else if(site.target == "tab"){//別タブで開く場合
+        a.attr("href", site.url.replace("OPACWORD", q));
+        a.attr("target", "_blank");
+        a.append("（別タブ）");//別タブで開くことを追記する
+      }
+    }
+
+    //パラメータで設定したサイト名と同じ場合には、iframeのsrcに当該URLを与える
+    if(site_name == site.name){
+      $("#iframe").attr("src", site.url.replace("OPACWORD", q));
+      a.addClass("active");
+    }
+  }
+
+  //パラメータの取得
+  function get_params(){
+    var arg  = new Object;
+    var url = location.search.substring(1).split('&');
+
+    for(var i=0; url[i]; i++) {
+      var k = url[i].split('=');
+      arg[k[0]] = decodeURIComponent(k[1]);
+    }
+    return arg;
+  }
+
+  </script>
+
+</body>
+
+</html>
