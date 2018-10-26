@@ -1,13 +1,13 @@
 function search_cinii(q, isbn){
 
-  var url = "https://ci.nii.ac.jp/opensearch/search?q="+q+"&format=json";
+  var url = "https://ci.nii.ac.jp/books/opensearch/search?q="+q+"&format=json";
 
   show_url(url);
 
   $.getJSON(url, function(data) {
 
     console.log(data);
-    
+
     if(data["@graph"]){
 
       var tbody = $("#tbody");
