@@ -1,0 +1,53 @@
+/***書誌情報を表示する場合のデザイン***/
+div.bibData{
+	min-height:13em;
+	margin:0.1em;
+	padding-top:0.3em;
+	padding-right:0.5em;
+	border:solid 1px #ccc;
+}
+div.bibData div.cover{
+	clear:none;
+	border:none;
+	height:auto;
+	padding:0;
+	margin:0;
+	text-align:center;
+	float:left;
+	min-width:10em;
+	min-height:10em;
+	line-height:1em;
+}
+div.bibData div.cover img{
+	height:10em;
+	margin:auto;
+}
+div.bibData a.title{}			/*タイトルのデザイン*/
+	div.bibData span.auther{}		/*責任表示のデザイン*/
+		div.bibData span.publisher{}	/*出版社のデザイン*/
+			div.bibData span.pubdate{}		/*出版年月日のデザイン*/
+				div.bibData span.content{}		/*その他のデザイン*/
+					div.bibData a.tamesiyomi{}		/*試し読みのデザイン*/
+						div.bibData span.powerBy{font-size:75%; color:#999;}
+						/***書誌情報を表示する場合のデザインここまで***/
+
+						/***書影のみ、タイトルと書影を表示する場合のデザイン***/
+						div.titOnly{
+							clear:none;
+							border:none;
+							height:auto;
+							padding:0;
+							margin:0;
+							text-align:center;
+							min-width:10em;
+							vertical-align:top;
+						}
+						div.titOnly div.cover, div.titOnly img, div.titOnly a img{
+							height:10em;
+							margin:auto;
+						}
+						div.titOnly a.title{font-size:90%;display:block; text-align:center; width:10em; height:1.5em; overflow:hidden;}
+						div.titOnly span.powerBy{font-size:75%; color:#999; display:block; text-align:center;}
+						div.titOnly div span{font-size:90%; display:block;width:10em;}
+						div.titOnly div br{display:none;}
+						/***書影のみ、タイトルと書影を表示する場合のデザインここまで***/

@@ -1,0 +1,151 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+	<meta name="author" content="We Make the Free Library Systems">
+	<title>OPAC+</title>
+	<meta http-equiv="content-style-type" content="text/css">
+	<script type="text/javascript" src="fopacplus.js"></script><!--frameを使ったOPAC+のプログラムファイル-->
+	<script type="text/javascript" src="ecl_new.js"></script><!--文字コード変換用のプログラムファイル-->
+
+	<script type="text/javascript">
+	var tagList =[
+	['カーリル','utf-8','get','https://calil.jp/search?q=OPACWORD&sysid=Chiba_Nagareyama'],
+	['東京都立','utf-8','session','https://catalog.library.metro.tokyo.jp/winj/opac/search-standard.do?lang=ja&txt_word=OPACWORD&submit_btn_searchEasy=%E6%A4%9C%E7%B4%A2&hid_word_column=fulltext&txt_dummy='],
+	['カーリルローカル','utf-8','get','https://calil.jp/local/search?csid=chiba&q=OPACWORD'],
+	['Amazon','utf-8','sameorigin','https://www.amazon.co.jp/s/ref=nb_sb_noss?__mk_ja_JP=%E3%82%AB%E3%82%BF%E3%82%AB%E3%83%8A&url=search-alias%3Daps&field-keywords=OPACWORD'],
+//以下任意のサイトを追加//
+	];
+	var dispMode="MULTI";
+	</script>
+<style>
+
+#tableDiv{
+	display:table;	/*表示モードを表（テーブル）に*/
+	width:100%;		/*幅(width)は画面全体（100%)*/
+
+}
+#flameArea *,#tagArea *{
+	margin:0;		/*余白（外側）を無し（0）に*/
+	padding:0;		/*余白（内側）を無し（0）に*/
+}
+#tagArea{
+	display:table-cell;	/*表示を表の要素（セル）に*/
+	width:14em;			/*幅を14文字分に*/
+}
+#tagArea form{
+	line-height:2em;	/*行の高さは2文字分*/
+	width:13em;			/*幅を13文字分に*/
+	margin-bottom:1em;	/*下の余白（外側）を1文字分開ける*/
+	text-align:center;	/*なかの文字を中央寄せ*/
+}
+#tagArea input,#flameArea input{
+	line-height:2em;			/*行の高さは2文字分*/
+	height:2em;					/*高さを2文字分に*/
+	width:13em;					/*幅を13文字分に*/
+	border:1px solid #666;	/*外枠は細い実線（1px solid)、暗めの灰色（#666）*/
+	padding-left:0.5em;			/*右側の余白（内側）を0.5文字に*/
+	padding-right:0.5em;		/*左側の余白（内側）を0.5文字に*/
+	margin-bottom:0.5em;		/*下の余白（外側）を0.5文字に*/
+	border-radius: 4px;			/*枠線の角は4ピクセルの弧で丸みをつける*/
+}
+#flameArea input{
+	width:20em;					/*検索文字入力欄の幅を20文字分に*/
+}
+#flameArea input.submit{
+	width:6em;					/*実行ボタンの幅を6文字分に*/
+}
+#tagArea a{
+	display:block;				/*表示をブロック表示に*/
+	text-align:center;			/*なかの文字を中央寄せ*/
+	line-height:2.5em;			/*行の高さは2.5文字分*/
+	height:2.5em;				/*高さを2.5文字分に*/
+	overflow:hidden;			/*領域からあふれた分は表示しない*/
+	border:solid 1px #666;		/*枠線は細い実線（1px solid)、暗めの灰色（#666）*/
+	border-bottom:none;			/*下の枠線は描画しない（none)*/
+	color:#333;					/*文字の色はほぼ黒（#333)*/
+	text-decoration:none;		/*文字の下線は描画しない（none)*/
+	margin:auto;				/*要素を中央寄せ*/
+}
+#tagArea a.selected{
+	color:#fff;					/*文字の色は白(#fff)*/
+	background:#666;			/*背景の色は暗めの灰色(#666)*/
+}
+#tagArea a:last-child{
+	border-bottom:solid 1px #666;	/*(最後のリンクだけ)下の枠線は細い実線（1px solid)、暗めの灰色（#666）*/
+}
+#flameArea{
+	display:table-cell;			/*表示を表の要素（セル）に*/
+}
+#flameArea div{
+	border:solid 1px #666;		/*枠線は細い実線（1px solid)、暗めの灰色（#666）*/
+	padding:0.5em;				/*余白（内側）を0.5文字に*/
+	background:#666;			/*背景の色は暗めの灰色(#666)*/
+}
+#flameArea iframe{
+	border:none;				/*枠線を描画しない*/
+	width:100%;					/*幅(width)は要素全体（100%)*/
+	background:#fff;			/*背景の色は白(#fff)*/
+}
+#flameArea div.sitebutton{
+	background:#fff;			/*背景の色は白(#fff)*/
+	border:none;
+}
+@media screen and (max-width: 992px){	/*以下は画面が狭くなった(幅:992ピクセル以下)の時*/
+#flameArea,#tableDiv,#tagArea{
+	display:block;
+	width:auto;
+}
+#flameArea br{
+	display:none;
+}
+#tagArea a{
+	display:inline-block;
+	width:auto;
+	padding:0.1em 0.5em;
+	border:solid 1px #666;
+}
+#tagArea form{
+	width:auto;
+	margin:auto;
+	margin-bottom:1em;
+	text-align:center;
+}
+#tagArea input{
+	width:auto;
+}
+#tagArea{
+	margin-bottom:-2px;
+}
+}/*ここまで画面が狭くなった(幅:992ピクセル以下)の時*/
+</style>
+</head>
+<body>
+<div id="tableDiv">
+<div id="tagArea">
+<h1>OPAC+</h1>
+<!--検索後も表示される表示はここから-->
+
+<!--検索後も表示される表示はここまで-->
+</div>
+<div id="flameArea">
+<!--検索後も非表示はここから-->
+さまざまな外部サイトを検索できます。<br>
+検索後に表示されるボタンを選択して、対象のサイトを選んでください。<br>
+<!--検索後も非表示はここまで-->
+</div>
+</div>
+<script type="text/javascript"><!--
+window.onload=opacPlus;
+--></script>
+<script type="text/javascript"><!--
+var fc2footerparam = 'charset=' + (document.charset ? document.charset : document.characterSet) + '&url=' + document.location + '&service=0&r=' + Math.floor(Math.random()*99999999999);
+var fc2footertag = '<' + 'script src="//vip.chps-api.fc2.com/apis/footer/?' + fc2footerparam + '" charset="UTF-8"><' + '/script>';
+document.write(fc2footertag);
+//--></script>
+<!-- FC2, inc.-->
+<img src="//media.fc2.com/counter_img.php?id=50" style="visibility:hidden" alt="inserted by FC2 system" width="0" height="0">
+<!-- FC2, inc.-->
+</body>
+</html>

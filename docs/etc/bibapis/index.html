@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <title>書誌・書影系APIを使ったリスト</title>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta http-equiv="content-style-type" content="text/css">
+
+  <script type="text/javascript" src="opexobd.js"></script>
+  <script type="text/javascript">
+  var wemOBDLink='http://api.calil.jp/openurl?rft.isbn=OPACWORD'; //リンク先を指定ISBNを指定する部分に'OPACWORD'の文字列を代入
+  var wemOBDMode='SHOSHI';	//IMAGE（表紙画像）、TITLE（表紙画像＋タイトル）、SHOSHI（書誌情報）の３択。指定されない場合には、IMAGE。
+  var wemOBDDisp='booklist';	//表示領域のID（'ISBN:ISBN番号'で指定する場合は不要))
+  var wemOBDsysid='Chiba_Pref';	//calilで検索対象の図書館システムを指定したいときに、システムIDを入力する。
+  var wemAPIsite='GOOGLE';		//openBDの後に調べるAPIを、NDL(NDLサーチAPI),CINII(CiniiBooksAPI),GOOGLE(GoogleBooksAPI)から選択
+  //	var wemISBNList =["4-08-864252-X","978-4-87687-290-9","9784001141436"];
+  //wemISBNList =　にISBNを記入し、行頭の//を削除します。
+</script>
+<link rel="stylesheet" type="text/css" href="opexobd.css">
+
+<style>
+/*デザインはここに記入します*/
+
+h1{}	/*見出しのデザイン*/
+  div.comment{}	/*解説のデザイン*/
+    div.bibData{}	/*書誌情報のデザイン*/
+      div.cover img{}	/*表紙画像のデザイン*/
+        div.bibData a.title{}			/*タイトルのデザイン*/
+          div.bibData span.auther{}		/*責任表示のデザイン*/
+            div.bibData span.publisher{}	/*出版社のデザイン*/
+              div.bibData span.pubdate{}		/*出版年月日のデザイン*/
+                div.bibData span.content{}		/*その他のデザイン*/
+                  div.bibData a.tamesiyomi{}		/*試し読みのデザイン*/
+
+                    /*デザインはここまで*/
+                  </style>
+                </head>
+                <body>
+                  <h1>書誌・書影系APIを使ったリスト<!--テーマの見出しを入力---></h1>
+                  <div class="comment"><!--ここに解説を入力--></div>
+                  <hr>
+                  <div id="booklist"><!---ブックリストを表示する領域。表示の際は、領域の内容は消去-->
+                    <form name="MakeBookWagonOnWeb" method="get" action="index.html">
+                      <input type="submit" value="書誌データ取得">
+                      <hr>
+                      <textarea name="isbn" cols="65" rows="6" maxlength="1300">
+                      </textarea>
+                    </form>
+                  </div><!---ブックリストを表示する領域。ここまで-->
+                </body>
+                </html>
