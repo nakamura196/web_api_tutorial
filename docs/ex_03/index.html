@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>API Workshop</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+</head>
+<body>
+
+  <!-- 表示 -->
+  <div class="container">
+
+    <h1 class="my-5">API Workshop</h1>
+
+    <div class="card">
+      <div class="card-body">
+        <form>
+          <div class="form-group">
+            <label>キーワード</label>
+            <input type="text" class="form-control" name="q">
+          </div>
+          <div class="form-group">
+            <label>ISBN</label>
+            <input type="text" class="form-control" name="isbn">
+          </div>
+          <div class="form-group">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="target" value="cinii" checked>
+              <label class="form-check-label">
+                CiNii
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="target" value="google">
+              <label class="form-check-label">
+                Google Books
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="target" value="openbd">
+              <label class="form-check-label">
+                openBD
+              </label>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary">検索</button>
+        </form>
+
+      </div>
+    </div>
+
+    <p class="my-5">URL: <span id="target_url"></span></p>
+
+    <table class="table table-bordered">
+      <tr>
+        <th>書影</th>
+        <th>タイトル</th>
+        <th>出版社</th>
+        <th>URL</th>
+      </tr>
+      <tbody id="tbody">
+      </tbody>
+    </table>
+  </div>
+  <script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+
+  <script type="text/javascript" src="utils.js"></script>
+  <script type="text/javascript" src="cinii.js"></script>
+  <script type="text/javascript" src="gbook.js"></script>
+  <script type="text/javascript" src="openbd.js"></script>
+
+
+<script>
+var params = get_params();
+var target = params["target"];
+var q = params["q"];
+var isbn = params["isbn"];
+
+set_params();
+
+if(target == "cinii"){
+  search_cinii(q);
+} else if(target == "google"){
+  search_google(q, isbn);
+} else if(target == "openbd"){
+  search_openbd(isbn);
+}
+
+</script>
+
+</body>
+
+</html>
